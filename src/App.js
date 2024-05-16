@@ -19,7 +19,7 @@ function App() {
           Containerized NodeJS App
         </a>
         <br></br>
-        <h1>WAKEFERN CODE BREAK TROUBLESHOOTING APP</h1>
+        <h1>PIPELINE CODE BREAK TROUBLESHOOTING APP</h1>
       </header>
     </div>
   );
