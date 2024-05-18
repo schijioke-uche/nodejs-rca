@@ -1,5 +1,5 @@
 # Install the application dependencies in a full UBI Node docker image
-FROM registry.access.redhat.com/ubi8/nodejs-14:latest
+FROM registry.access.redhat.com/ubi8/nodejs-16:latest
 USER 0
 
 # Copy package.json and package-lock.json
@@ -9,7 +9,7 @@ COPY package*.json ./
 RUN npm install --production
 
 # Copy the dependencies into a minimal Node.js image
-FROM registry.access.redhat.com/ubi8/nodejs-14-minimal:latest
+FROM registry.access.redhat.com/ubi8/nodejs-16-minimal:latest
 USER 0
 
 # Install app dependencies
