@@ -1,28 +1,20 @@
-# First stage of the build is to install dependencies, and build from source......
-FROM registry.access.redhat.com/ubi8/nodejs-18 as build
+# Install the application dependencies in a full UBI Node docker image
+FROM registry.access.redhat.com/ubi8/nodejs-14:latest
 
-WORKDIR /usr/src/app
-COPY --chown=1001:1001 chart ./
-COPY --chown=1001:1001 package*.json ./
-RUN npm ci
-COPY --chown=1001:1001 tsconfig*.json ./
-COPY --chown=1001:1001 src src
-RUN npm run build:ts
+# Copy package.json and package-lock.json
+COPY package*.json ./
 
-# Second stage of the build is to create a lighter container with just enough
-# required to run the application, i.e production deps and compiled js files
-FROM registry.access.redhat.com/ubi8/nodejs-18
-WORKDIR /usr/src/app
+# Install app dependencies
+RUN npm install --production
 
-COPY --chown=1001:1001 --from=build /usr/src/app/package*.json/ .
-COPY --chown=1001:1001 --from=build /usr/src/app/chart .
-RUN npm ci --omit=dev
-COPY --chown=1001:1001 --from=build /usr/src/app/dist/ dist/
+# Copy the dependencies into a minimal Node.js image
+FROM registry.access.redhat.com/ubi8/nodejs-14-minimal:latest
 
-ENV NODE_ENV=production
-ENV FASTIFY_PORT 8080
-ENV FASTIFY_ADDRESS 0.0.0.0
-EXPOSE 8080
+# Install app dependencies
+COPY --from=0 /opt/app-root/src/node_modules /opt/app-root/src/node_modules
+COPY . /opt/app-root/src
 
-ENTRYPOINT [ "./node_modules/.bin/fastify" ]
-CMD [ "start", "-l", "info", "dist/app.js" ]
+ENV NODE_ENV production
+ENV PORT 3000
+EXPOSE 3000
+CMD ["npm", "start"]

@@ -1,43 +1,97 @@
-<!DOCTYPE html>
-<html lang="en">
+<!--
+  ~
+  ~  Copyright 2016-2017 Red Hat, Inc, and individual contributors.
+  ~
+  ~  Licensed under the Apache License, Version 2.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~  You may obtain a copy of the License at
+  ~
+  ~  http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~  Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+  ~
+  -->
+
+<html>
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
+    <title>API Level 0 Example - Node.js</title>
+
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous"
     />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
-
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
   </head>
+
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+    <div class="container" id="app">
+      <div>
+        <h1>API Level 0 Example - Node.js</h1>
+        <p class="lead">
+          This example showcases a basic mapping of a business operation to a
+          remote endpoint. By taking this approach, clients leverage the HTTP
+          protocol as a transport mechanism to call upon services. Application
+          engineers define their APIs using a broad interpretation of REST
+          fundamentals, encouraging freedom in design and quick prototyping.
+        </p>
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+        <h2>Using the greeting service</h2>
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
+        <form class="form-inline" @submit.prevent="getJSON">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input
+              type="text"
+              ref="name"
+              class="form-control"
+              id="name"
+              placeholder="World"
+            />
+          </div>
+          <button id="invoke" type="submit" class="btn btn-success">
+            Invoke
+          </button>
+        </form>
+
+        <h3>Result:</h3>
+        <pre><code id="greeting-result">{{greetingResult}}</code></pre>
+      </div>
+      <br>
+      <div>
+        <span><h3>REDHAT OPENSHIFT CONTAINER PLATFORM PIPELINE TEST</h3></span>
+      </div>
+    </div>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.7.10/vue.min.js"
+      integrity="sha512-H8u5mlZT1FD7MRlnUsODppkKyk+VEiCmncej8yZW1k/wUT90OQon0F9DSf/2Qh+7L/5UHd+xTLrMszjHEZc2BA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script>
+      const app = new Vue({
+        el: "#app",
+        data: {
+          greetingResult: "Invoke the service to see the result.",
+        },
+        methods: {
+          async getJSON(e) {
+            const name = this.$refs.name.value;
+            const result = await fetch(`/api/greeting?name=${name}`);
+            if (!result.ok) {
+              const message = `Error: ${result.status} - ${result.statusText}`;
+              throw new Error(message);
+            }
+            const data = await result.json();
+            this.greetingResult = JSON.stringify(data);
+          },
+        },
+      });
+    </script>
   </body>
 </html>

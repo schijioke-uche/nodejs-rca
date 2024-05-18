@@ -1,0 +1,16 @@
+name: ci
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+jobs:
+  test:
+    uses: pkgjs/action/.github/workflows/node-test.yaml@v0.1
+    with:
+      runs-on: ubuntu-latest
+      upgrade-policy: lts
+      test-command: npm test
+      post-test-steps: |
+        - name: Coverage Report
+          uses: codecov/codecov-action@v2

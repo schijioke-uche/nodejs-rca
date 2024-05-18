@@ -1,70 +1,40 @@
-# Getting Started with Create React App
+ ![Node.js CI](https://github.com/nodeshift-starters/nodejs-rest-http/workflows/ci/badge.svg)
+ [![codecov](https://codecov.io/gh/nodeshift-starters/nodejs-rest-http/branch/main/graph/badge.svg?token=3uYea6eZu8)](https://codecov.io/gh/nodeshift-starters/nodejs-rest-http)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Running The Example
 
-## Available Scripts
+You can run this example as node processes on your localhost, as pods on a local
+[OpenShift Local](https://developers.redhat.com/products/openshift-local/overview) installation.
 
-In the project directory, you can run:
+### Localhost
 
-### `npm start`
+To run the basic application on your local machine, just run the commands below:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```
+$ npm install
+$ npm start
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+This will launch the application on port 8080.
 
-### `npm test`
+Other options:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+* `npm run dev` same as `npm start` but with pretty output log.
+* `npm run dev:debug` shows debug information.
 
-### `npm run build`
+### OpenShift Local
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+OpenShift Local should be started, and you should be logged in with a currently
+active project. Then run the `npm run openshift` command.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```sh
+$ crc setup # Set-up the hypervisor
+$ crc start # Initialize the openshift cluster
+$ oc login -u developer # Login
+$ oc new-project my-example-project # Create a project to deploy to
+$ npm run openshift # Deploys the example app
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### OpenTelemetry with OpenShift Distributed Tracing Platform
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This [link](./OTEL.md) contains instructions on how to install the OpenShift Distributed Tracing Platform and enable tracing.
