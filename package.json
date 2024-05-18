@@ -1,7 +1,7 @@
 {
-  "name": "nodejs-rest-http",
-  "version": "4.0.0",
-  "author": "Red Hat, Inc.",
+  "name": "nodejs-rca",
+  "version": "4.1.0",
+  "author": "Red Hat, Inc. & IBM",
   "license": "Apache-2.0",
   "scripts": {
     "pretest": "eslint --ignore-path .gitignore .",
